@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helpdesk</title>
+  <style>
+    /* CSS untuk membuat tampilan responsif */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+    background-color: #fe9d01
+    }
+
+    .logo img {
+    height: 100px;
+    max-height: 10%;
+    }
+
+    h1 {
+    justify-content: space-between;
+    display: flex;
+    color: rgb(255, 0, 0);
+    margin: 0;
+    padding: 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .form-group button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+
+    </header>
+  <div class="container">
+    <div class="header">
+      <h1>Helpdesk</h1>
+      <p>Silakan isi formulir di bawah ini untuk mengajukan pertanyaan.</p>
+    </div>
+    <form id="helpdesk-form">
+      <div class="form-group">
+        <label for="name">Nama:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Pesan:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit">Kirim</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript untuk mengirim data formulir menggunakan AJAX
+    document.getElementById("helpdesk-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData(this);
+      
+      xhr.open("POST", "proses.php", true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          alert("Pertanyaan Anda telah terkirim!");
+          document.getElementById("helpdesk-form").reset();
+        }
+      };
+      xhr.send(formData);
+    });
+    fetch('sukses.json')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'sukses') {
+          showNotification(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan:', error);
+      });
+
+    function showNotification(message) {
+      // Tampilkan notifikasi dengan pesan yang diterima
+      // Di sini, Anda dapat menggunakan library notifikasi seperti Bootstrap, SweetAlert, atau library lainnya
+      alert(message);
+    }
+  </script>
+</body>
+</html>
